@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPTV PREMIERE</title>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #00d2ff;
+      --accent-color: #3a7bd5;
+      --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --text-color: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Kanit', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Header Section */
+    .header {
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #00d2ff, #91eaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .info-bar {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+
+    /* Video Container */
+    .main-container {
+      width: 95%;
+      max-width: 900px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .video-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    /* Controls & Inputs */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"], select {
+      flex: 1;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+    }
+
+    .button-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-family: 'Kanit', sans-serif;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-primary { background: linear-gradient(45deg, #00d2ff, #3a7bd5); color: white; }
+    .btn-secondary { background: rgba(255, 255, 255, 0.1); color: white; }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.2); }
+    .btn:active { transform: scale(0.95); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.2rem; }
+      .input-group { flex-direction: column; }
+      .btn { flex: 1; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>IPTV MAS PREMIERE</h1>
+  <div class="info-bar">
+    <span id="dateDisplay"></span> | <span id="timeDisplay"></span>
+  </div>
+</div>
+
+<div class="main-container">
+  <div class="video-wrapper">
+    <video id="video" playsinline crossorigin></video>
+  </div>
+
+  <div class="controls-grid">
+    <!-- Channel Selector -->
+    <select id="channelSelect">
+      <option value="">เลือกช่องรายการ...</option>
+      <option value="https://monomax-uiripn.cdn.byteark.com/plain/th/1080p/index.m3u8">MONO29 HD</option>
+      <option value="http://45.144.166.242:1935/ThairathTV/t3_thairathtv/playlist.m3u8">Thairath TV</option>
+      <option value="https://load1.v2h-cdn.com/digitaltv/ch3/playlist.m3u8">3HD</option>
+      <option value="https://load1.v2h-cdn.com/RE_freetv/7HD.stream_720p/playlist.m3u8">7HD</option>
+    </select>
+
+    <!-- Custom URL Input -->
+    <div class="input-group">
+      <input type="text" id="videoInput" placeholder="วางลิงก์ .m3u8 ที่นี่...">
+      <button class="btn btn-primary" id="loadPlayer">เล่นลิงก์นี้</button>
+    </div>
+
+    <!-- Screen Controls -->
+    <div class="button-stack">
+      <button class="btn btn-secondary" onclick="setFit('fill')">Stretch</button>
+      <button class="btn btn-secondary" onclick="setFit('cover')">Crop</button>
+      <button class="btn btn-secondary" onclick="setFit('contain')">Reset</button>
+      <button class="btn btn-primary" id="fullscreenBtn">เต็มจอ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://unpkg.com/plyr@3"></script>
+
+<script>
+  // DateTime Update
+  function updateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById('dateDisplay').textContent = now.toLocaleDateString('th-TH', options);
+    document.getElementById('timeDisplay').textContent = now.toLocaleTimeString('th-TH');
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
+
+  // Video Player Setup
+  const video = document.getElementById('video');
+  const channelSelect = document.getElementById('channelSelect');
+  const videoInput = document.getElementById('videoInput');
+  const loadBtn = document.getElementById('loadPlayer');
+  
+  const player = new Plyr(video, {
+    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'pip', 'fullscreen']
+  });
+
+  function playM3U8(url) {
+    if (!url) return;
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = url;
+    }
+  }
+
+  // Event Listeners
+  channelSelect.addEventListener('change', (e) => playM3U8(e.target.value));
+  loadBtn.addEventListener('click', () => playM3U8(videoInput.value));
+
+  function setFit(type) {
+    video.style.objectFit = type;
+    if(type === 'fill') video.style.height = '100%';
+  }
+
+  document.getElementById('fullscreenBtn').addEventListener('click', () => {
+    if (player.fullscreen.enabled) player.fullscreen.enter();
+  });
+</script>
+
+</body>
+</html>
