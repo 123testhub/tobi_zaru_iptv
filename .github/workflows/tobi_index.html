@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium TV Launcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            margin-bottom: 5px;
+        }
+
+        /* Container การจัดวาง Logo ช่อง */
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            padding: 10px;
+        }
+
+        /* การ์ดแต่ละช่อง */
+        .channel-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .channel-card img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            background: #fff; /* ใส่พื้นหลังขาวให้โลโก้ดูเด่นขึ้น */
+            padding: 5px;
+        }
+
+        .channel-name {
+            font-size: 12px;
+            font-weight: 400;
+            color: #cbd5e1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        /* ซ่อนองค์ประกอบไม่พึงประสงค์ */
+        .popup, [id*="ad"] { display: none !important; }
+
+        @media (max-width: 480px) {
+            .channel-grid {
+                grid-template-columns: repeat(3, 1fr); /* มือถือโชว์แถวละ 3 ช่อง */
+                gap: 12px;
+            }
+            .channel-card { padding: 10px; }
+            .channel-card img { width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>PREMIUM TV BOX</h1>
+    <p style="font-size: 14px; opacity: 0.6;">เลือกช่องเพื่อเปิดใน MX Player</p>
+</header>
+
+<div class="channel-grid">
+
+    <!-- ช่องที่ 1 -->
+    <a href="intent://coolism-web.cdn.byteark.com/;stream/1#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=COOLISM;scheme=https;type=video/mp4;end" class="channel-card">
+        <img src="https://i1.sndcdn.com/avatars-t3aFJipUsgnY5jhX-CzKotQ-t1080x1080.jpg" onerror="this.src='https://via.placeholder.com/80?text=TV'">
+        <div class="channel-name">COOLISM</div>
+    </a>
+
+    <!-- ช่องที่ 2 -->
+    <a href="intent://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/29/29.mpd#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=MONO29;scheme=https;type=video/mp4;end" class="channel-card">
+        <img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0016.png" onerror="this.src='https://via.placeholder.com/80?text=TV'">
+        <div class="channel-name">MONO 29</div>
+    </a>
+
+    <!-- ช่องที่ 3 -->
+    <a href="intent://love.pifipa2974.workers.dev/lx-origin/streamx-samrujlok_480/chunks.m3u8#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=SamRujLok;scheme=https;type=video/mp4;end" class="channel-card">
+        <img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon///SamRujLok.png" onerror="this.src='https://via.placeholder.com/80?text=TV'">
+        <div class="channel-name">สำรวจโลก</div>
+    </a>
+
+    <!-- ช่องที่ 4 -->
+    <a href="intent://119.59.118.168/live/ch57/irannahee/index.m3u8#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=TRUE%20EXPLORE;scheme=https;type=video/mp4;end" class="channel-card">
+        <img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0013_R.png" onerror="this.src='https://via.placeholder.com/80?text=TV'">
+        <div class="channel-name">True Explore</div>
+    </a>
+
+</div>
+
+<script>
+    // ดักจับและซ่อนโฆษณาที่อาจแฝงมา
+    window.onload = function () {
+        var adElements = document.querySelectorAll('[id*="ad"], [class*="ad"], [src*="ads"]');
+        adElements.forEach(el => el.style.display = 'none');
+    }
+</script>
+
+</body>
+</html>
