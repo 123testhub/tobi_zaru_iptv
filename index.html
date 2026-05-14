@@ -3,106 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPTV MAS PREMIERE</title>
-    
-    <!-- CSS สำหรับเครื่องเล่นและฟอนต์ -->
+    <title>IPTV MAS - Auto Playlist</title>
     <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00d2ff;
-            --bg: #0f172a;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
-
-        body {
-            margin: 0; padding: 0;
-            background: var(--bg);
-            color: white;
-            font-family: 'Kanit', sans-serif;
-            display: flex; flex-direction: column; align-items: center;
-        }
-
-        .header {
-            text-align: center; padding: 20px; width: 100%;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
-        }
-
-        .container {
-            width: 95%; max-width: 800px; margin-top: 20px;
-            background: var(--glass); padding: 15px; border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* ปรับปรุงส่วน Video */
-        .video-box {
-            border-radius: 15px; overflow: hidden; background: #000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        video { width: 100%; height: auto; }
-
-        .ui-controls {
-            display: grid; gap: 15px; margin-top: 20px;
-        }
-
-        select, input {
-            width: 100%; padding: 12px; border-radius: 10px;
-            background: #1e293b; color: white; border: 1px solid #334155;
-            font-family: 'Kanit';
-        }
-
-        .btn-group {
-            display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-        }
-
-        .btn {
-            padding: 10px 15px; border: none; border-radius: 8px;
-            cursor: pointer; font-family: 'Kanit'; transition: 0.2s;
-            background: #334155; color: white; font-size: 14px;
-        }
-
+        :root { --primary: #00d2ff; --bg: #0f172a; }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Kanit', sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .header { text-align: center; padding: 15px; width: 100%; background: rgba(0,0,0,0.3); }
+        .container { width: 95%; max-width: 800px; margin-top: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; }
+        .video-box { border-radius: 15px; overflow: hidden; background: #000; }
+        select { width: 100%; padding: 12px; margin-top: 15px; border-radius: 10px; background: #1e293b; color: white; border: 1px solid #334155; font-family: 'Kanit'; }
+        .btn-group { display: flex; gap: 8px; margin-top: 15px; justify-content: center; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; background: #334155; color: white; cursor: pointer; }
         .btn-blue { background: #0ea5e9; }
-        .btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h1 style="margin:0; font-size: 1.2rem; color: var(--primary);">IPTV MAS PREMIERE</h1>
-    <div id="clock" style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;"></div>
+    <h1 style="margin:0; font-size: 1.2rem; color: var(--primary);">IPTV AUTO PLAYLIST</h1>
+    <div id="status" style="font-size: 0.7rem; color: #10b981;">กำลังโหลดรายการช่อง...</div>
 </div>
 
 <div class="container">
     <div class="video-box">
-        <!-- ใส่ ID วิดีโอให้ตรงกับสคริปต์ -->
         <video id="player" playsinline controls crossorigin></video>
     </div>
 
-    <div class="ui-controls">
-        <!-- รายการช่องทั้งหมดที่คุณเคยมี -->
-        <select id="channelList">
-            <option value="">-- เลือกช่องรายการ --</option>
-            <option value="https://love.pifipa2974.workers.dev/lx-origin/streamx-samrujlok_480/chunks.m3u8">สำรวจโลก</option>
-            <option value="https://monomax-uiripn.cdn.byteark.com/plain/th/1080p/index.m3u8">โมโน 29</option>
-            <option value="http://45.144.166.242:1935/ThairathTV/t3_thairathtv/playlist.m3u8">ไทยรัฐ ทีวี</option>
-            <option value="https://load1.v2h-cdn.com/digitaltv/ch3/playlist.m3u8">ช่อง 3HD</option>
-            <option value="https://load1.v2h-cdn.com/RE_freetv/7HD.stream_720p/playlist.m3u8">ช่อง 7HD</option>
-            <option value="https://lb1-live-mv.v2h-cdn.com/hls/ffad/vibomi/vibomi.m3u8">อมรินทร์ ทีวี</option>
-        </select>
+    <!-- รายการช่องจะถูกเติมเข้าที่นี่อัตโนมัติ -->
+    <select id="channelList">
+        <option value="">-- เลือกช่องรายการจากไฟล์ M3U --</option>
+    </select>
 
-        <div style="display: flex; gap: 5px;">
-            <input type="text" id="manualUrl" placeholder="วางลิงก์ .m3u8 เองที่นี่">
-            <button class="btn btn-blue" id="playBtn">เล่น</button>
-        </div>
-
-        <div class="btn-group">
-            <button class="btn" onclick="resizeVideo('fill')">Stretch</button>
-            <button class="btn" onclick="resizeVideo('cover')">Crop</button>
-            <button class="btn" onclick="resizeVideo('contain')">Reset</button>
-            <button class="btn btn-blue" id="fullBtn">เต็มจอ</button>
-        </div>
+    <div class="btn-group">
+        <button class="btn" onclick="resizeVideo('fill')">Stretch</button>
+        <button class="btn" onclick="resizeVideo('contain')">Reset</button>
+        <button class="btn btn-blue" id="fullBtn">เต็มจอ</button>
     </div>
 </div>
 
@@ -112,13 +48,45 @@
 <script>
     const video = document.getElementById('player');
     const channelList = document.getElementById('channelList');
-    const manualUrl = document.getElementById('manualUrl');
-    const playBtn = document.getElementById('playBtn');
-    
-    // ตั้งค่าตัวเล่น Plyr
+    const statusText = document.getElementById('status');
     const player = new Plyr(video);
 
-    function loadVideo(url) {
+    // 1. ดึงข้อมูลจากไฟล์ .m3u ในเครื่อง/GitHub ของคุณ
+    async function loadM3U() {
+        try {
+            // ดึงไฟล์ชื่อ all_channels.m3u ที่อยู่ในโฟลเดอร์เดียวกัน
+            const response = await fetch('all_channels.m3u'); 
+            const data = await text = await response.text();
+            parseM3U(data);
+            statusText.textContent = "โหลดช่องรายการสำเร็จ!";
+        } catch (error) {
+            statusText.textContent = "โหลดไฟล์ M3U ไม่สำเร็จ";
+            console.error(error);
+        }
+    }
+
+    // 2. แปลงข้อมูล M3U เป็นรายการเลือก (Option)
+    function parseM3U(data) {
+        const lines = data.split('\n');
+        let currentName = '';
+
+        lines.forEach(line => {
+            line = line.trim();
+            if (line.startsWith('#EXTINF:')) {
+                // หาชื่อช่องหลังเครื่องหมายคอมม่า (,)
+                currentName = line.split(',')[1] || "Unknown Channel";
+            } else if (line.startsWith('http')) {
+                // ถ้าเป็นบรรทัดลิงก์ ให้สร้าง Option
+                const option = document.createElement('option');
+                option.value = line;
+                option.textContent = currentName;
+                channelList.appendChild(option);
+            }
+        });
+    }
+
+    // 3. ฟังก์ชันเล่นวิดีโอ
+    function playStream(url) {
         if (!url) return;
         if (Hls.isSupported()) {
             const hls = new Hls();
@@ -130,25 +98,19 @@
         video.play();
     }
 
-    // แก้ไขปุ่มกดไม่ได้
-    channelList.addEventListener('change', (e) => loadVideo(e.target.value));
-    playBtn.addEventListener('click', () => loadVideo(manualUrl.value));
-    
+    channelList.addEventListener('change', (e) => playStream(e.target.value));
+
     // ปุ่มเต็มจอ
     document.getElementById('fullBtn').addEventListener('click', () => {
         if (player.fullscreen.enabled) player.fullscreen.enter();
     });
 
-    // ปุ่มปรับสัดส่วนภาพ
     function resizeVideo(mode) {
         video.style.objectFit = mode;
     }
 
-    // นาฬิกา
-    setInterval(() => {
-        const now = new Date();
-        document.getElementById('clock').textContent = now.toLocaleString('th-TH');
-    }, 1000);
+    // เริ่มโหลดไฟล์ M3U เมื่อเปิดหน้าเว็บ
+    loadM3U();
 </script>
 
 </body>
