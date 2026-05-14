@@ -1,148 +1,373 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium TV Launcher</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --accent-color: #38bdf8;
-            --text-main: #f8fafc;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Kanit', sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+<title>Advanced IPTV Portal</title>
 
-        header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+<link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css"/>
 
-        header h1 {
-            font-size: 24px;
-            letter-spacing: 1px;
-            color: var(--accent-color);
-            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-            margin-bottom: 5px;
-        }
+<style>
 
-        /* Container การจัดวาง Logo ช่อง */
-        .channel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 800px;
-            padding: 10px;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        /* การ์ดแต่ละช่อง */
-        .channel-card {
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+body{
+    background:#000;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    padding:15px;
+}
 
-        .channel-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.12);
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
+h1{
+    text-align:center;
+    margin-bottom:15px;
+    color:#00bfff;
+}
 
-        .channel-card img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            background: #fff; /* ใส่พื้นหลังขาวให้โลโก้ดูเด่นขึ้น */
-            padding: 5px;
-        }
+.player-container{
+    max-width:1000px;
+    margin:auto;
+}
 
-        .channel-name {
-            font-size: 12px;
-            font-weight: 400;
-            color: #cbd5e1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
+video{
+    width:100%;
+    border-radius:12px;
+    background:#000;
+}
 
-        /* ซ่อนองค์ประกอบไม่พึงประสงค์ */
-        .popup, [id*="ad"] { display: none !important; }
+.channel-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+    gap:10px;
+    margin-top:20px;
+}
 
-        @media (max-width: 480px) {
-            .channel-grid {
-                grid-template-columns: repeat(3, 1fr); /* มือถือโชว์แถวละ 3 ช่อง */
-                gap: 12px;
-            }
-            .channel-card { padding: 10px; }
-            .channel-card img { width: 60px; height: 60px; }
-        }
-    </style>
+.channel{
+    background:#111;
+    border:1px solid #222;
+    border-radius:12px;
+    padding:8px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.channel:hover{
+    transform:scale(1.05);
+    border-color:#00bfff;
+}
+
+.channel img{
+    width:70px;
+    height:70px;
+    border-radius:12px;
+    object-fit:cover;
+}
+
+.channel-name{
+    font-size:12px;
+    margin-top:5px;
+    color:#ccc;
+}
+
+.controls{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+
+button,input{
+    padding:12px;
+    border:none;
+    border-radius:10px;
+}
+
+button{
+    background:#00bfff;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.85;
+}
+
+input{
+    flex:1;
+    background:#111;
+    color:white;
+    border:1px solid #333;
+}
+
+.status{
+    margin-top:10px;
+    color:#aaa;
+    font-size:14px;
+}
+
+</style>
 </head>
+
 <body>
 
-<header>
-    <h1>PREMIUM TV BOX</h1>
-    <p style="font-size: 14px; opacity: 0.6;">เลือกช่องเพื่อเปิดใน MX Player</p>
-</header>
+<div class="player-container">
 
-<div class="channel-grid">
+<h1>Advanced IPTV Portal</h1>
 
-    <!-- ช่องที่ 1 -->
-    <a href="intent://coolism-web.cdn.byteark.com/;stream/1#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=COOLISM;scheme=https;type=video/mp4;end" class="channel-card">
-        <img src="https://i1.sndcdn.com/avatars-t3aFJipUsgnY5jhX-CzKotQ-t1080x1080.jpg" onerror="this.src='https://via.placeholder.com/80?text=TV'">
-        <div class="channel-name">COOLISM</div>
-    </a>
+<video id="video" controls playsinline></video>
 
-    <!-- ช่องที่ 2 -->
-    <a href="intent://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/29/29.mpd#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=MONO29;scheme=https;type=video/mp4;end" class="channel-card">
-        <img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0016.png" onerror="this.src='https://via.placeholder.com/80?text=TV'">
-        <div class="channel-name">MONO 29</div>
-    </a>
+<div class="controls">
 
-    <!-- ช่องที่ 3 -->
-    <a href="intent://love.pifipa2974.workers.dev/lx-origin/streamx-samrujlok_480/chunks.m3u8#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=SamRujLok;scheme=https;type=video/mp4;end" class="channel-card">
-        <img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon///SamRujLok.png" onerror="this.src='https://via.placeholder.com/80?text=TV'">
-        <div class="channel-name">สำรวจโลก</div>
-    </a>
+<input
+id="customUrl"
+placeholder="วางลิงก์ .m3u8 หรือ .mpd"
+/>
 
-    <!-- ช่องที่ 4 -->
-    <a href="intent://119.59.118.168/live/ch57/irannahee/index.m3u8#Intent;package=com.mxtech.videoplayer.ad;S.userAgent=exo_player;S.title=TRUE%20EXPLORE;scheme=https;type=video/mp4;end" class="channel-card">
-        <img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0013_R.png" onerror="this.src='https://via.placeholder.com/80?text=TV'">
-        <div class="channel-name">True Explore</div>
-    </a>
+<button onclick="loadCustom()">
+เล่นเว็บ
+</button>
+
+<button onclick="openMX()">
+MX Player
+</button>
+
+<button onclick="openWiseplay()">
+Wiseplay
+</button>
+
+<button onclick="toggleFullscreen()">
+Fullscreen
+</button>
 
 </div>
 
+<div class="status" id="status">
+Ready
+</div>
+
+<div class="channel-grid">
+
+<div class="channel"
+onclick="playChannel(
+'https://raw.githubusercontent.com/123testhub/all/refs/heads/main/hbo.m3u8'
+)">
+
+<img
+src="https://upload.wikimedia.org/wikipedia/commons/d/de/HBO_logo.svg"
+onerror="this.src='https://via.placeholder.com/70'"
+>
+
+<div class="channel-name">
+HBO
+</div>
+
+</div>
+
+<div class="channel"
+onclick="playChannel(
+'https://raw.githubusercontent.com/123testhub/all/refs/heads/main/spotv1.m3u8'
+)">
+
+<img
+src="https://upload.wikimedia.org/wikipedia/commons/2/2f/SPOTV_logo.png"
+onerror="this.src='https://via.placeholder.com/70'"
+>
+
+<div class="channel-name">
+SPOTV 1
+</div>
+
+</div>
+
+<div class="channel"
+onclick="playChannel(
+'https://love.pifipa2974.workers.dev/lx-origin/streamx-samrujlok_480/chunks.m3u8'
+)">
+
+<img
+src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon///SamRujLok.png"
+onerror="this.src='https://via.placeholder.com/70'"
+>
+
+<div class="channel-name">
+สำรวจโลก
+</div>
+
+</div>
+
+<div class="channel"
+onclick="playChannel(
+'https://ssai-streaming.thairath.co.th/bamm-csai/720p/index.m3u8'
+)">
+
+<img
+src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0016.png"
+onerror="this.src='https://via.placeholder.com/70'"
+>
+
+<div class="channel-name">
+ไทยรัฐ
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://unpkg.com/plyr@3"></script>
+
 <script>
-    // ดักจับและซ่อนโฆษณาที่อาจแฝงมา
-    window.onload = function () {
-        var adElements = document.querySelectorAll('[id*="ad"], [class*="ad"], [src*="ads"]');
-        adElements.forEach(el => el.style.display = 'none');
+
+const video = document.getElementById('video');
+const customUrl = document.getElementById('customUrl');
+const statusText = document.getElementById('status');
+
+let currentUrl = '';
+let hls;
+
+const player = new Plyr(video);
+
+function setStatus(text){
+    statusText.innerText = text;
+}
+
+function destroyPlayer(){
+
+    if(hls){
+        hls.destroy();
     }
+
+}
+
+function playChannel(url){
+
+    currentUrl = url;
+
+    customUrl.value = url;
+
+    destroyPlayer();
+
+    setStatus('Loading...');
+
+    if(Hls.isSupported()){
+
+        hls = new Hls({
+            enableWorker:true,
+            lowLatencyMode:true
+        });
+
+        hls.loadSource(url);
+
+        hls.attachMedia(video);
+
+        hls.on(Hls.Events.MANIFEST_PARSED,function(){
+
+            video.play();
+
+            setStatus('Playing');
+
+        });
+
+        hls.on(Hls.Events.ERROR,function(event,data){
+
+            console.log(data);
+
+            if(data.fatal){
+
+                setStatus('Stream Error');
+
+            }
+
+        });
+
+    }else if(video.canPlayType('application/vnd.apple.mpegurl')){
+
+        video.src = url;
+
+        video.play();
+
+    }else{
+
+        alert('Browser ไม่รองรับ HLS');
+
+    }
+
+}
+
+function loadCustom(){
+
+    const url = customUrl.value.trim();
+
+    if(!url){
+        return;
+    }
+
+    playChannel(url);
+
+}
+
+function openMX(){
+
+    if(!currentUrl){
+        alert('เลือกช่องก่อน');
+        return;
+    }
+
+    const cleanUrl = currentUrl
+        .replace('https://','')
+        .replace('http://','');
+
+    const intent =
+`intent://${cleanUrl}
+#Intent;
+package=com.mxtech.videoplayer.ad;
+type=application/x-mpegURL;
+end`;
+
+    window.location.href = intent;
+
+}
+
+function openWiseplay(){
+
+    if(!currentUrl){
+        alert('เลือกช่องก่อน');
+        return;
+    }
+
+    const intent =
+`wiseplay://${encodeURIComponent(currentUrl)}`;
+
+    window.location.href = intent;
+
+}
+
+async function toggleFullscreen(){
+
+    if(!document.fullscreenElement){
+
+        await video.requestFullscreen();
+
+    }else{
+
+        await document.exitFullscreen();
+
+    }
+
+}
+
+playChannel(
+'https://raw.githubusercontent.com/123testhub/all/refs/heads/main/hbo.m3u8'
+);
+
 </script>
 
 </body>
