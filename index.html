@@ -3,138 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPTV MAS PREMIERE - FINAL</title>
-    <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&display=swap" rel="stylesheet">
+    <title>IPTV Test Port 2095</title>
     <style>
-        :root { --primary: #00d2ff; --bg: #0f172a; }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Kanit', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .header { text-align: center; padding: 20px; width: 100%; background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .container { width: 95%; max-width: 800px; margin-top: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; box-sizing: border-box; }
-        .video-box { border-radius: 15px; overflow: hidden; background: #000; position: relative; aspect-ratio: 16/9; }
-        select { width: 100%; padding: 12px; margin-top: 20px; border-radius: 10px; background: #1e293b; color: white; border: 1px solid #334155; font-family: 'Kanit'; cursor: pointer; font-size: 16px; }
-        .btn-group { display: flex; gap: 8px; margin-top: 20px; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-family: 'Kanit'; background: #334155; color: white; font-size: 14px; }
-        .btn-blue { background: #0ea5e9; font-weight: 500; }
+        body { background: #000; color: #fff; text-align: center; font-family: sans-serif; }
+        video { width: 100%; max-width: 600px; background: #222; margin-top: 20px; }
+        select { padding: 10px; margin-top: 20px; width: 80%; }
+        .warning { color: #ff4d4d; font-size: 0.8rem; padding: 10px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1 style="margin:0; font-size: 1.2rem; color: var(--primary);">IPTV MAS PREMIERE</h1>
-</div>
+    <h2>ทดสอบลิงก์ตรง (Port 2095)</h2>
+    <p class="warning">** หากกดเล่นแล้วจอมืด แสดงว่าบราวเซอร์บล็อก HTTP/Port **</p>
 
-<div class="container">
-    <div class="video-box">
-        <video id="player" playsinline controls crossorigin></video>
-    </div>
+    <video id="testPlayer" controls playsinline></video>
 
-    <select id="channelList">
-        <option value="">-- กรุณาเลือกช่องรายการ --</option>
-        <!-- เปลี่ยนลิงก์เป็น jsDelivr เพื่อให้เล่นได้ 100% -->
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/animalshow.m3u8">animalshow</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/astrofootball.m3u8">astrofootball</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/astrograndstand.m3u8">astrograndstand</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/astropremier.m3u8">astropremier</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/astropremier2.m3u8">astropremier2</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/axn.m3u8">axn</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/bein2.m3u8">bein2</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/bein3.m3u8">bein3</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/cartoonnetwork.m3u8">cartoonnetwork</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/cinemax.m3u8">cinemax</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/cricbuzz.m3u8">cricbuzz</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/discovery.m3u8">discovery</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/dreamwork.m3u8">dreamwork</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/golf.m3u8">golf</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/hbo.m3u8">hbo</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/hbofamily.m3u8">hbofamily</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/hbohits.m3u8">hbohits</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/hbosignature.m3u8">hbosignature</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/history.m3u8">history</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/monomax.m3u8">monomax</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/moviesphere.m3u8">moviesphere</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/nba.m3u8">nba</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/nfl.m3u8">nfl</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/realwild.m3u8">realwild</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/rockaction.m3u8">rockaction</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/rush.m3u8">rush</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/spotv1.m3u8">spotv1</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/spotv2.m3u8">spotv2</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/tennis.m3u8">tennis</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/true4u.m3u8">true4u</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/trueasiamore.m3u8">trueasiamore</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/trueexploresci.m3u8">trueexploresci</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/truefilm1.m3u8">truefilm1</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/truefootball3.m3u8">truefootball3</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/truemoviehits.m3u8">truemoviehits</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/trueseries.m3u8">trueseries</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/truesport1.m3u8">truesport1</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/truesport2.m3u8">truesport2</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/truesport5.m3u8">truesport5</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/truethaifilm.m3u8">truethaifilm</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/tsport7.m3u8">tsport7</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/wbtv.m3u8">wbtv</option>
-        <option value="https://cdn.jsdelivr.net/gh/123testhub/all@main/wesport.m3u8">wesport</option>
+    <br>
+    <select id="linkSelector">
+        <option value="">-- เลือกช่องเพื่อทดสอบ --</option>
+        <!-- ลิงก์ที่ 1: ดึงจากบรรทัดบนในภาพ 19386.jpg -->
+        <option value="http://ultratv.one:2095/live/hCPtsREFtA/Xj25tg0ZXi/115704.m3u8">HBO Test 1 (115704)</option>
+        <!-- ลิงก์ที่ 2: ดึงจากบรรทัดล่างในภาพ 19386.jpg -->
+        <option value="http://ultratv.one:2095/live/hCPtsREFtA/Xj25tg0ZXi/115714.m3u8">HBO Test 2 (115714)</option>
     </select>
 
-    <div class="btn-group">
-        <button class="btn" onclick="resizeVideo('fill')">Stretch</button>
-        <button class="btn" onclick="resizeVideo('cover')">Crop</button>
-        <button class="btn" onclick="resizeVideo('contain')">Reset</button>
-        <button class="btn btn-blue" onclick="player.fullscreen.enter()">เต็มจอ</button>
-    </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        const video = document.getElementById('testPlayer');
+        const selector = document.getElementById('linkSelector');
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://unpkg.com/plyr@3"></script>
+        selector.addEventListener('change', (e) => {
+            const url = e.target.value;
+            if (!url) return;
 
-<script>
-    const video = document.getElementById('player');
-    const channelList = document.getElementById('channelList');
-    
-    // ตั้งค่าตัวเล่นวิดีโอ
-    const player = new Plyr(video, {
-        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-        settings: ['quality', 'speed']
-    });
-
-    let hls;
-
-    function loadVideo(url) {
-        if (!url) return;
-        
-        // ล้าง HLS เดิมถ้ามี
-        if (hls) { hls.destroy(); }
-
-        if (Hls.isSupported()) {
-            hls = new Hls();
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            } else {
+                video.src = url;
                 video.play();
-            });
-            // จัดการ Error อัตโนมัติ
-            hls.on(Hls.Events.ERROR, function(event, data) {
-                if (data.fatal) {
-                    switch (data.type) {
-                        case Hls.ErrorTypes.NETWORK_ERROR: hls.startLoad(); break;
-                        case Hls.ErrorTypes.MEDIA_ERROR: hls.recoverMediaError(); break;
-                        default: hls.destroy(); break;
-                    }
-                }
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = url;
-            video.play();
-        }
-    }
-
-    channelList.addEventListener('change', (e) => loadVideo(e.target.value));
-
-    function resizeVideo(mode) {
-        video.style.objectFit = mode;
-    }
-</script>
-
+            }
+        });
+    </script>
 </body>
 </html>
